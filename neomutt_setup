@@ -78,7 +78,7 @@ STEP 4 — CONFIGURE NEOMUTT (DIRECT IMAP, NO LOCAL STORAGE)
     # --- General behavior ---
     set mail_check = 60
     set timeout = 15
-    set editor = "vim"
+    set editor = "nvim"
     set edit_headers = yes
     set sig_dashes = no
     set sort = threads
