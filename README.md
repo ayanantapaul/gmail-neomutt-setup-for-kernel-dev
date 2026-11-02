@@ -4,59 +4,67 @@ Purpose: Set up neomutt for reading/sending kernel-dev mail via Gmail,
 without storing a local copy of mail on disk. Uses msmtp for sending
 and gpg for securely storing the Gmail App Password.
 
-Note: 
+> NOTE: This guide is for `Ubuntu/Debian` users. But this works on `Arch Linux` with a few adjustments (you need to do it yourself btw~).
 
-STEP 1 — INSTALL PACKAGES
--------------------------
-sudo apt update
-sudo apt install neomutt isync msmtp msmtp-mta pass gnupg
+## Step 1 - Install Packages
 
-Note: If prompted "Enable AppArmor support?" during install, choose YES.
-It only adds a security confinement profile for the package; no downside.
+```bash
+   $ sudo apt update
+   $ sudo apt install neomutt isync msmtp msmtp-mta pass gnupg
+```
+> NOTE: If prompted "Enable AppArmor support?" during install, choose YES.
+> It only adds a security confinement profile for the package; no downside.
 
+## Step 2 - Generate a Gmail App Password 
 
-STEP 2 — GENERATE A GMAIL APP PASSWORD
----------------------------------------
-1. Go to Google Account -> Security
-2. Confirm 2-Step Verification is ON (required)
-3. Go to Security -> App Passwords (or myaccount.google.com/apppasswords)
-4. Create a new app password, name it e.g. "neomutt"
+1. Go to `Google Account` -> `Google Account`
+2. Confirm `2-Step Verification` is ON (required)
+3. Go to `Security` -> `App Passwords` (or [myaccount.google.com/apppasswords](myaccount.google.com/apppasswords))
+4. Create a new app password, name it e.g. "`neomutt`"
 5. Copy the 16-character password shown (no spaces when using it)
-   Keep this handy for Step 3.
+   Keep this handy for `Step 3`.
 
+## Step 3 - Encrypt the App Password with GPG
 
-STEP 3 — ENCRYPT THE APP PASSWORD WITH GPG
---------------------------------------------
 3a. Generate a GPG key (skip if one already exists):
     gpg --full-generate-key
-    - Key type: RSA and RSA (default)
-    - Key size: 4096
-    - Expiry: 0 (does not expire) or your preference
-    - Real name: your name
-    - Email: your Gmail address
+    - Key type: `RSA and RSA` (default)
+    - Key size: `4096`
+    - Expiry: `0` (does not expire) or your preference
+    - Real name: Enter your name
+    - Email: Your Gmail address
     - Set a passphrase (you will need this later to decrypt)
 
 3b. Save the app password to a temp file:
-    echo "your-16-char-app-password" > mbsync.pw
+```bash
+   $ echo "<your_16_char_app_password>" > mbsync.pw
+```
 
 3c. Encrypt it:
-    gpg --encrypt --recipient "your.email@gmail.com" mbsync.pw
+```bash
+   $ gpg --encrypt --recipient "your.email@gmail.com" mbsync.pw
+```
 
 3d. Move into place and delete the plaintext:
-    mv mbsync.pw.gpg ~/.mbsync-pw.gpg
-    rm mbsync.pw
+```bash
+   $ mv mbsync.pw.gpg ~/.mbsync-pw.gpg
+   $ rm mbsync.pw
+```
 
 3e. Verify decryption works:
-    gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.mbsync-pw.gpg
-    (should prompt for GPG passphrase, then print the app password)
+```bash
+   $ gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.mbsync-pw.gpg
+```
+> NOTE: Should prompt for GPG passphrase, then print the app password
 
+Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 
-STEP 4 — CONFIGURE NEOMUTT (DIRECT IMAP, NO LOCAL STORAGE)
--------------------------------------------------------------
 4a. Create config directory:
-    mkdir -p ~/.config/neomutt
+```bash
+   $ mkdir -p ~/.config/neomutt
+```
 
-4b. Create ~/.config/neomutt/neomuttrc with the following content:
+4b. Create `~/.config/neomutt/neomuttrc` with the following content:
 
     # --- Identity ---
     set realname = "Your Name"
@@ -89,9 +97,11 @@ STEP 4 — CONFIGURE NEOMUTT (DIRECT IMAP, NO LOCAL STORAGE)
     set sendmail = "/usr/bin/msmtp"
 
 4c. Launch neomutt:
-    neomutt
-    - Prompts for GPG passphrase to decrypt app password
-    - Connects live to imap.gmail.com and shows INBOX
+```bash
+   $ neomutt
+```
+> - Prompts for GPG passphrase to decrypt app password
+> - Connects live to imap.gmail.com and shows INBOX
 
 4d. Check other folders (optional):
     Press 'l' inside neomutt, then type e.g.:
