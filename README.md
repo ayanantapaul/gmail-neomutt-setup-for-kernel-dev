@@ -1,6 +1,6 @@
 # Neomutt + Gmail Setup (Direct IMAP, No Local Mail Storage)
 
-Purpose: Set up neomutt for reading/sending kernel-dev mail via Gmail,
+**Purpose**: Set up neomutt for reading/sending kernel-dev mail via Gmail,
 without storing a local copy of mail on disk. Uses msmtp for sending
 and gpg for securely storing the Gmail App Password.
 
@@ -57,7 +57,7 @@ and gpg for securely storing the Gmail App Password.
 ```
 > NOTE: Should prompt for GPG passphrase, then print the app password
 
-Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
+## Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 
 4a. Create config directory:
 ```bash
@@ -65,7 +65,7 @@ Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 ```
 
 4b. Create `~/.config/neomutt/neomuttrc` with the following content:
-
+```
     # --- Identity ---
     set realname = "Your Name"
     set from = "your.email@gmail.com"
@@ -95,6 +95,7 @@ Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 
     # --- Sending via msmtp (configured in Step 5) ---
     set sendmail = "/usr/bin/msmtp"
+```
 
 4c. Launch neomutt:
 ```bash
@@ -105,13 +106,14 @@ Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 
 4d. Check other folders (optional):
     Press 'l' inside neomutt, then type e.g.:
+```
     imaps://your.email@gmail.com@imap.gmail.com/[Gmail]/Sent Mail
+```
 
+## Step 5 - Configure MSMTP (for Sending Mail)
 
-STEP 5 — CONFIGURE MSMTP (SENDING MAIL)
-------------------------------------------
-5a. Create ~/.msmtprc with the following content:
-
+5a. Create `~/.msmtprc` with the following content:
+```
     defaults
     tls on
     tls_trust_file /etc/ssl/certs/ca-certificates.crt
@@ -127,29 +129,36 @@ STEP 5 — CONFIGURE MSMTP (SENDING MAIL)
     passwordeval "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.mbsync-pw.gpg"
 
     account default : gmail
+```
 
 5b. Lock down file permissions:
-    chmod 600 ~/.msmtprc
+```bash
+   $ chmod 600 ~/.msmtprc
+```
 
 5c. Test sending:
-    echo -e "Subject: test\n\nhello from msmtp" | msmtp your.email@gmail.com
-    - Prompts for GPG passphrase
-    - No output = success
-    - Check inbox for the test email
+```bash
+   $ echo -e "Subject: test\n\nhello from msmtp" | msmtp your.email@gmail.com
+```
+> NOTE:
+> - Prompts for GPG passphrase
+> - No output = success
+> - Check inbox for the test email
 
 5d. Check logs if it fails:
-    cat ~/.msmtp.log
+```bash
+   $ cat ~/.msmtp.log
+```
 
+---
 
-RESULT / WHAT THIS SETUP GIVES YOU
---------------------------------------
+**Result / What this setup gives you?**
 - neomutt reads mail directly from Gmail via IMAP, no local mail files saved
 - msmtp sends mail through Gmail's SMTP using the same encrypted app password
 - Gmail App Password stored once, encrypted with GPG, reused by both tools
 - Ready to link with git send-email (separate step) using the same msmtp account
 
-NOTES
------
+**Notes**
 - Every folder switch/search in neomutt round-trips to Gmail over network
   (slower than a local Maildir cache, but zero mail stored on disk).
 - If performance becomes an issue with high-volume lists (e.g. LKML),
