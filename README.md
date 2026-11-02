@@ -1,4 +1,4 @@
-# Neomutt + Gmail Setup (Direct IMAP, No Local Mail Storage)
+# Neomutt + Gmail Setup for *Linux Kernel Development* (Direct IMAP, No Local Mail Storage)
 
 **Purpose**: Set up neomutt for reading/sending kernel-dev mail via Gmail,
 without storing a local copy of mail on disk. Uses msmtp for sending
