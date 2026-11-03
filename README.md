@@ -6,6 +6,7 @@ and gpg for securely storing the Gmail App Password.
 
 > NOTE: This guide is for `Ubuntu/Debian` users. But this works on `Arch Linux` with a few adjustments (you need to do it yourself btw~).
 
+
 ## Step 1 - Install Packages
 
 ```bash
@@ -15,6 +16,7 @@ and gpg for securely storing the Gmail App Password.
 > NOTE: If prompted "Enable AppArmor support?" during install, choose YES.
 > It only adds a security confinement profile for the package; no downside.
 
+
 ## Step 2 - Generate a Gmail App Password 
 
 1. Go to `Google Account` -> `Google Account`
@@ -23,6 +25,7 @@ and gpg for securely storing the Gmail App Password.
 4. Create a new app password, name it e.g. "`neomutt`"
 5. Copy the 16-character password shown (no spaces when using it)
    Keep this handy for `Step 3`.
+
 
 ## Step 3 - Encrypt the App Password with GPG
 
@@ -56,6 +59,7 @@ and gpg for securely storing the Gmail App Password.
    $ gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.mbsync-pw.gpg
 ```
 > NOTE: Should prompt for GPG passphrase, then print the app password
+
 
 ## Step 4 - Configure Neomutt (Direct IMAP, No Local Storage)
 
@@ -109,6 +113,7 @@ and gpg for securely storing the Gmail App Password.
 ```
     imaps://your.email@gmail.com@imap.gmail.com/[Gmail]/Sent Mail
 ```
+
 
 ## Step 5 - Configure MSMTP (for Sending Mail)
 
