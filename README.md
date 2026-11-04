@@ -21,7 +21,7 @@ and gpg for securely storing the Gmail App Password.
 
 1. Go to `Google Account` -> `Google Account`
 2. Confirm `2-Step Verification` is ON (required)
-3. Go to `Security` -> `App Passwords` (or [myaccount.google.com/apppasswords](myaccount.google.com/apppasswords))
+3. Go to `Security` -> `App Passwords` (or [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords))
 4. Create a new app password, name it e.g. "`neomutt`"
 5. Copy the 16-character password shown (no spaces when using it)
    Keep this handy for `Step 3`.
