@@ -7,11 +7,5 @@
 	signoff = true   
 
 [sendemail]
-	smtpServer = smtp.gmail.com
-	smtpServerPort = 587
-	smtpEncryption = tls
-	smtpUser = your-email@gmail.com
-	# Use an App Password, not your regular password
-	smtpPass = your-app-password
-	chainreplyto = false
-	from = "Firstname Lastname <your-email@example.com>"   
+	sendmailCmd = /usr/bin/msmtp
+	envelopeSender = auto   
